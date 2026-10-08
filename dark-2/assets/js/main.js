@@ -106,3 +106,22 @@ document.addEventListener('touchstart', function () { document.documentElement.c
 // Рух справжньої мишки повертає їх (ноутбуки з сенсорним екраном).
 document.addEventListener('pointerdown', function (e) { if (e.pointerType === 'touch') document.documentElement.classList.add('is-touch'); }, { passive: true });
 document.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') document.documentElement.classList.remove('is-touch'); }, { passive: true });
+
+// Відео про клініку: YouTube у вікні, iframe створюється лише на клік і прибирається при закритті
+(function () {
+  var vm = document.getElementById('video');
+  if (!vm) return;
+  var frame = vm.querySelector('.video-frame');
+  var close = function () { vm.classList.remove('is-open'); frame.innerHTML = ''; document.body.style.overflow = ''; };
+  document.querySelectorAll('[data-open-video]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + a.getAttribute('data-open-video') + '?autoplay=1&rel=0" title="Відео про клініку" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+      vm.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  vm.querySelector('[data-close-video]').addEventListener('click', close);
+  vm.addEventListener('click', function (e) { if (e.target === vm) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && vm.classList.contains('is-open')) close(); });
+})();

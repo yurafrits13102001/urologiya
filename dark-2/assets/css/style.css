@@ -104,16 +104,16 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 .hero__bg { position: absolute; inset: 0; z-index: 0; }
 .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%; filter: saturate(.55) brightness(.62) contrast(1.05); }
 .hero__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22,23,24,.15), rgba(22,23,24,.55) 60%, rgba(22,23,24,.9)); }
-.hero > :not(.hero__bg):not(.media-ph) { position: relative; z-index: 1; }
+.hero > :not(.hero__bg) { position: relative; z-index: 1; }
 .hero__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
-.hero__note { display: inline-flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 14px 0 8px; border-radius: 6px; background: rgba(22,23,24,.75); border: 1px solid var(--line-2); font-family: var(--mono); font-size: 12px; text-transform: uppercase; color: var(--text-2); }
-.hero__note b { width: 24px; height: 24px; border-radius: 3px; background: var(--blue); display: grid; place-items: center; }
-.hero__note b svg { width: 10px; height: 10px; color: #fff; }
+.hero__note { display: inline-flex; align-items: center; gap: 10px; padding: 6px 0; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); border-bottom: 1px solid rgba(242,243,244,.3); transition: border-color .2s; -webkit-tap-highlight-color: transparent; }
+.hero__note b { display: grid; place-items: center; }
+.hero__note b svg { width: 10px; height: 10px; color: var(--cyan); }
+.hero__note:active { border-bottom-color: var(--text); }
 .hero__bottom { display: flex; flex-direction: column; gap: 28px; align-items: flex-start; }
 .hero h1 { max-width: 14ch; }
 .hero__cta { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .hero__cta .lead { margin: 0; max-width: 360px; font-size: 13px; }
-.media-ph { position: absolute; right: 24px; bottom: 24px; z-index: 2; display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 10px; background: rgba(26,117,188,.18); border: 1px dashed rgba(42,138,216,.7); color: #9fd0f3; font-family: var(--mono); font-size: 11px; text-transform: uppercase; }
 
 /* ---------- Лікар (хіро-2) ---------- */
 .founder { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; min-height: 640px; }
@@ -203,6 +203,10 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 .modal__box { background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 36px; width: min(520px, 100%); position: relative; max-height: 90vh; overflow: auto; }
 .modal__close { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border: 1px solid var(--line); background: transparent; border-radius: 50%; cursor: pointer; font-size: 22px; line-height: 1; color: var(--text); }
 .modal__box h3 { margin-bottom: 8px; }
+.modal--video { background: rgba(0,0,0,.88); }
+.modal--video .modal__close { position: absolute; top: 16px; right: 16px; color: #fff; border-color: rgba(255,255,255,.35); }
+.video-frame { width: min(960px, 100%); aspect-ratio: 16 / 9; background: #000; border-radius: 10px; overflow: hidden; }
+.video-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
 
 /* ---------- CTA ---------- */
 .cta { margin: 0 16px 16px; border-radius: 28px; background: var(--blue); color: #fff; padding: 64px 48px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center; }
@@ -275,7 +279,6 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
   .hero h1 { max-width: none; }
   .hero__cta { flex-direction: column; align-items: stretch; width: 100%; }
   .hero__cta .btn { width: 100%; }
-  .media-ph { position: static; margin-top: 12px; }
   .founder { grid-template-columns: 1fr; }
   .founder__text { padding: 48px var(--pad); }
   .founder__media img { aspect-ratio: 4 / 4.4; height: auto; }
@@ -308,6 +311,7 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 /* ---------- Наведення: лише миша (на телефоні hover «залипав» після дотику) ---------- */
 @media (hover: hover) and (pointer: fine) {
   html:not(.is-touch) a:hover { color: var(--blue-2); }
+  html:not(.is-touch) .hero__note:hover { color: var(--text); border-bottom-color: var(--text); }
   html:not(.is-touch) .btn:hover { color: #fff; border-color: var(--blue); }
   html:not(.is-touch) .btn:hover::before { transform: scaleX(1); }
   html:not(.is-touch) .btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.35); }
