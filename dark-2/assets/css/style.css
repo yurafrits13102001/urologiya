@@ -307,24 +307,24 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 
 /* ---------- Наведення: лише миша (на телефоні hover «залипав» після дотику) ---------- */
 @media (hover: hover) and (pointer: fine) {
-  a:hover { color: var(--blue-2); }
-  .btn:hover { color: #fff; border-color: var(--blue); }
-  .btn:hover::before { transform: scaleX(1); }
-  .btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.35); }
-  .btn:hover .btn__arrow svg { transform: translateX(4px); }
-  .btn--blue:hover { color: var(--bg); border-color: var(--text); }
-  .btn--blue:hover .btn__arrow { border-left-color: rgba(22,23,24,.2); }
-  .header__phone:hover { color: var(--text); }
-  .menu-btn:hover { background: var(--bg-2); }
-  .nav a:hover { background: var(--bg-2); color: var(--text); }
-  .dir:hover { background: var(--bg-2); color: var(--text); }
-  .row:hover { color: var(--text); }
-  .row:hover .row__t { color: var(--blue-2); }
-  .member--more:hover .btn__arrow { background: var(--blue); border-color: var(--blue); }
-  .cta .btn:hover { color: #fff; border-color: var(--bg); }
-  .cta .btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.25); }
-  .footer a:hover { color: var(--text); }
-  .socials a:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+  html:not(.is-touch) a:hover { color: var(--blue-2); }
+  html:not(.is-touch) .btn:hover { color: #fff; border-color: var(--blue); }
+  html:not(.is-touch) .btn:hover::before { transform: scaleX(1); }
+  html:not(.is-touch) .btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.35); }
+  html:not(.is-touch) .btn:hover .btn__arrow svg { transform: translateX(4px); }
+  html:not(.is-touch) .btn--blue:hover { color: var(--bg); border-color: var(--text); }
+  html:not(.is-touch) .btn--blue:hover .btn__arrow { border-left-color: rgba(22,23,24,.2); }
+  html:not(.is-touch) .header__phone:hover { color: var(--text); }
+  html:not(.is-touch) .menu-btn:hover { background: var(--bg-2); }
+  html:not(.is-touch) .nav a:hover { background: var(--bg-2); color: var(--text); }
+  html:not(.is-touch) .dir:hover { background: var(--bg-2); color: var(--text); }
+  html:not(.is-touch) .row:hover { color: var(--text); }
+  html:not(.is-touch) .row:hover .row__t { color: var(--blue-2); }
+  html:not(.is-touch) .member--more:hover .btn__arrow { background: var(--blue); border-color: var(--blue); }
+  html:not(.is-touch) .cta .btn:hover { color: #fff; border-color: var(--bg); }
+  html:not(.is-touch) .cta .btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.25); }
+  html:not(.is-touch) .footer a:hover { color: var(--text); }
+  html:not(.is-touch) .socials a:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
 }
 
 /* ---------- Дотик: заливка на час натискання, потім повертається ---------- */

@@ -100,4 +100,9 @@
 })();
 
 // iOS вмикає :active лише якщо на сторінці є обробник дотику
-document.addEventListener('touchstart', function () {}, { passive: true });
+document.addEventListener('touchstart', function () { document.documentElement.classList.add('is-touch'); }, { passive: true });
+
+// Дотик пальцем вимикає ефекти наведення (деякі Android, напр. Samsung, помилково «мають мишку»).
+// Рух справжньої мишки повертає їх (ноутбуки з сенсорним екраном).
+document.addEventListener('pointerdown', function (e) { if (e.pointerType === 'touch') document.documentElement.classList.add('is-touch'); }, { passive: true });
+document.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse') document.documentElement.classList.remove('is-touch'); }, { passive: true });
