@@ -98,3 +98,6 @@
   }, { rootMargin: '0px 0px -10% 0px' });
   els.forEach(function (el) { io.observe(el); });
 })();
+
+// iOS вмикає :active лише якщо на сторінці є обробник дотику
+document.addEventListener('touchstart', function () {}, { passive: true });

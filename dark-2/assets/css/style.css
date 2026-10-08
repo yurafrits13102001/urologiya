@@ -27,7 +27,6 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(
 body { margin: 0; font-family: var(--sans); font-size: 16px; line-height: 1.55; color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased; }
 img { max-width: 100%; display: block; }
 a { color: var(--text); text-decoration: none; }
-a:hover { color: var(--blue-2); }
 p { margin: 0 0 14px; }
 ul { margin: 0; padding: 0; list-style: none; }
 h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.035em; line-height: 0.98; color: var(--text); text-wrap: pretty; }
@@ -60,19 +59,14 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
   transition: color .22s, border-color .22s;
 }
 .btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform .28s cubic-bezier(.2,.8,.2,1); }
-.btn:hover { color: #fff; border-color: var(--blue); }
-.btn:hover::before { transform: scaleX(1); }
+.btn { -webkit-tap-highlight-color: transparent; }
 .btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 .btn > span:first-child { display: flex; align-items: center; padding: 0 22px; }
 .btn__arrow { display: flex; align-items: center; justify-content: center; flex: none; padding: 0 16px; border-left: 1px solid var(--line-2); transition: border-color .22s; }
-.btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.35); }
 .btn__arrow svg { width: 16px; height: 16px; transition: transform .28s cubic-bezier(.2,.8,.2,1); }
-.btn:hover .btn__arrow svg { transform: translateX(4px); }
 .btn--blue { background: var(--blue); border-color: var(--blue); color: #fff; }
 .btn--blue::before { background: var(--text); }
-.btn--blue:hover { color: var(--bg); border-color: var(--text); }
 .btn--blue .btn__arrow { border-left-color: rgba(255,255,255,.3); }
-.btn--blue:hover .btn__arrow { border-left-color: rgba(22,23,24,.2); }
 .btn--lg { min-height: 76px; font-family: var(--sans); font-size: 20px; font-weight: 700; text-transform: none; letter-spacing: -0.01em; }
 .btn--lg > span:first-child { padding: 0 28px; }
 .btn--lg .btn__arrow { padding: 0 24px; }
@@ -94,16 +88,13 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 .logo img { height: 42px; width: auto; filter: brightness(0) invert(1); }
 .header__cta { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 .header__phone { font-family: var(--mono); font-size: 13px; color: var(--text-2); white-space: nowrap; }
-.header__phone:hover { color: var(--text); }
 .menu-btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px; border-radius: 6px; border: 1px solid var(--line-2); transition: background .2s; background: transparent; color: var(--text); font-family: var(--mono); font-size: 13px; text-transform: uppercase; cursor: pointer; }
 .menu-btn i { display: flex; flex-direction: column; gap: 4px; }
 .menu-btn i::before, .menu-btn i::after { content: ""; display: block; width: 18px; height: 2px; background: var(--text); }
 .menu-btn i::after { width: 12px; }
-.menu-btn:hover { background: var(--bg-2); }
 .nav { display: none; }
 .header.is-open .nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; position: absolute; left: 0; right: 0; top: 88px; background: var(--line); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .nav a { display: flex; flex-direction: column; justify-content: space-between; gap: 32px; min-height: 160px; padding: 24px; background: var(--bg); color: var(--text); }
-.nav a:hover { background: var(--bg-2); color: var(--text); }
 .nav a .mono:first-child { color: var(--text-3); font-size: 11px; }
 .nav a .mono:last-child { font-size: 20px; letter-spacing: -0.01em; }
 .nav a.is-active .mono:last-child { color: var(--blue-2); }
@@ -145,7 +136,6 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 /* ---------- Напрями (нумерований список) ---------- */
 .dirs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
 .dir { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: 260px; padding: 24px; background: var(--bg); color: var(--text); transition: background .15s; }
-.dir:hover { background: var(--bg-2); color: var(--text); }
 .dir__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .dir__top .mono { color: var(--text-3); }
 .dir__top svg { width: 20px; height: 20px; color: var(--blue-2); flex: none; }
@@ -155,8 +145,6 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 /* ---------- Список послуг / хвороб ---------- */
 .rows { border-top: 1px solid var(--line); }
 .row { display: grid; grid-template-columns: 64px 1fr auto; gap: 24px; align-items: center; min-height: 72px; padding: 18px 0; border-bottom: 1px solid var(--line); color: var(--text); }
-.row:hover { color: var(--text); }
-.row:hover .row__t { color: var(--blue-2); }
 .row .mono { color: var(--text-3); }
 .row__t { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2; }
 .row__s { display: block; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--text-2); font-weight: 400; }
@@ -176,7 +164,6 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 .member--more { align-items: center; justify-content: center; gap: 20px; text-align: center; background: var(--bg-2); color: var(--text); padding: 40px; }
 .member--more h3 { font-size: 34px; }
 .member--more .btn__arrow { width: 56px; height: 56px; padding: 0; border: 1px solid var(--line-2); border-radius: 6px; color: var(--text); transition: background .2s, border-color .2s; }
-.member--more:hover .btn__arrow { background: var(--blue); border-color: var(--blue); }
 
 /* ---------- Відгук ---------- */
 .quote { font-size: clamp(24px, 2.6vw, 38px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; max-width: 20ch; margin: 0 0 24px; }
@@ -225,9 +212,7 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 .cta__phone { font-size: clamp(26px, 3vw, 40px); font-weight: 700; letter-spacing: -0.03em; color: #fff; }
 .cta .btn { background: #fff; border-color: #fff; color: var(--bg); }
 .cta .btn::before { background: var(--bg); }
-.cta .btn:hover { color: #fff; border-color: var(--bg); }
 .cta .btn .btn__arrow { border-left-color: rgba(22,23,24,.2); }
-.cta .btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.25); }
 
 /* ---------- Контакти ---------- */
 .contacts { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -253,12 +238,10 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 .footer__grid img { height: 40px; width: auto; filter: brightness(0) invert(1); margin-bottom: 8px; }
 .footer h4 { margin: 0 0 6px; font-family: var(--mono); font-weight: 500; font-size: 11px; text-transform: uppercase; color: var(--text-3); }
 .footer a, .footer span { font-size: 15px; color: var(--text-2); }
-.footer a:hover { color: var(--text); }
 .footer__bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 20px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11px; color: var(--text-3); text-transform: uppercase; }
 .footer__bottom span { font-size: 11px; color: var(--text-3); }
 .socials { display: flex; gap: 8px; margin-top: 6px; }
 .socials a { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; color: var(--text-2); }
-.socials a:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
 .socials svg { width: 16px; height: 16px; fill: currentColor; }
 
 /* ---------- Анімація появи ---------- */
@@ -321,3 +304,36 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
   .btn--lg .btn__arrow svg { width: 18px; height: 18px; }
   body { padding-bottom: 76px; }
 }
+
+/* ---------- Наведення: лише миша (на телефоні hover «залипав» після дотику) ---------- */
+@media (hover: hover) and (pointer: fine) {
+  a:hover { color: var(--blue-2); }
+  .btn:hover { color: #fff; border-color: var(--blue); }
+  .btn:hover::before { transform: scaleX(1); }
+  .btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.35); }
+  .btn:hover .btn__arrow svg { transform: translateX(4px); }
+  .btn--blue:hover { color: var(--bg); border-color: var(--text); }
+  .btn--blue:hover .btn__arrow { border-left-color: rgba(22,23,24,.2); }
+  .header__phone:hover { color: var(--text); }
+  .menu-btn:hover { background: var(--bg-2); }
+  .nav a:hover { background: var(--bg-2); color: var(--text); }
+  .dir:hover { background: var(--bg-2); color: var(--text); }
+  .row:hover { color: var(--text); }
+  .row:hover .row__t { color: var(--blue-2); }
+  .member--more:hover .btn__arrow { background: var(--blue); border-color: var(--blue); }
+  .cta .btn:hover { color: #fff; border-color: var(--bg); }
+  .cta .btn:hover .btn__arrow { border-left-color: rgba(255,255,255,.25); }
+  .footer a:hover { color: var(--text); }
+  .socials a:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+}
+
+/* ---------- Дотик: заливка на час натискання, потім повертається ---------- */
+.btn:active { color: #fff; border-color: var(--blue); }
+.btn:active::before { transform: scaleX(1); transition-duration: .12s; }
+.btn:active .btn__arrow { border-left-color: rgba(255,255,255,.35); }
+.btn:active .btn__arrow svg { transform: translateX(4px); transition-duration: .12s; }
+.btn--blue:active { color: var(--bg); border-color: var(--text); }
+.btn--blue:active .btn__arrow { border-left-color: rgba(22,23,24,.2); }
+.cta .btn:active { color: #fff; border-color: var(--bg); }
+.member--more:active .btn__arrow { background: var(--blue); border-color: var(--blue); }
+.menu-btn:active, .dir:active, .nav a:active { background: var(--bg-2); }
