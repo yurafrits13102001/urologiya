@@ -92,6 +92,9 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 .hero { position: relative; margin: 0 16px; border-radius: 28px; overflow: hidden; min-height: 640px; display: flex; flex-direction: column; justify-content: space-between; padding: 36px 40px; }
 .hero__bg { position: absolute; inset: 0; z-index: 0; }
 .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 40%; filter: saturate(.55) brightness(.62) contrast(1.05); }
+.hero__video { position: absolute; top: 0; left: 50%; transform: translateX(-50%); pointer-events: none; opacity: 0; transition: opacity 1.4s ease; filter: saturate(.55) brightness(.62) contrast(1.05); }
+.hero__video.is-playing { opacity: 1; }
+.hero__video iframe { width: 100%; height: 100%; border: 0; display: block; }
 .hero__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22,23,24,.15), rgba(22,23,24,.55) 60%, rgba(22,23,24,.9)); }
 .hero > :not(.hero__bg):not(.media-ph) { position: relative; z-index: 1; }
 .hero__top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
@@ -195,6 +198,10 @@ h1 em, h2 em { font-style: normal; color: var(--text-2); }
 .modal__box { background: var(--bg-2); border: 1px solid var(--line); border-radius: 24px; padding: 36px; width: min(520px, 100%); position: relative; max-height: 90vh; overflow: auto; }
 .modal__close { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border: 1px solid var(--line); background: transparent; border-radius: 50%; cursor: pointer; font-size: 22px; line-height: 1; color: var(--text); }
 .modal__box h3 { margin-bottom: 8px; }
+.modal--video { background: rgba(0,0,0,.88); }
+.modal--video .modal__close { position: absolute; top: 16px; right: 16px; color: #fff; border-color: rgba(255,255,255,.35); }
+.video-frame { width: min(960px, 100%); aspect-ratio: 16 / 9; background: #000; border-radius: 10px; overflow: hidden; }
+.video-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
 
 /* ---------- CTA ---------- */
 .cta { margin: 0 16px 16px; border-radius: 28px; background: var(--blue); color: #fff; padding: 64px 48px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: center; }

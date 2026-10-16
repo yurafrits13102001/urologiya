@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=bg2">
 </head>
 <body>
 <header class="header">
@@ -34,9 +34,9 @@
 </header>
 
 <section class="hero">
-  <div class="hero__bg"><img src="assets/img/img_4659-scaled.jpg" alt="" fetchpriority="high"></div>
+  <div class="hero__bg"><img src="assets/img/img_4659-scaled.jpg" alt="" fetchpriority="high"><div class="hero__video" data-yt="uYGhQ08PTa0" data-start="10" data-end="64" aria-hidden="true"></div></div>
   <div class="hero__top">
-    <span class="hero__note"><b><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg></b>Дивитись відео</span>
+    <a class="hero__note" href="https://www.youtube.com/watch?v=uYGhQ08PTa0" data-open-video="uYGhQ08PTa0"><b><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg></b>Дивитись відео</a>
     <span class="mono" style="color:var(--text-2)">Чернівці · вул. Чорноморська, 4А</span>
   </div>
   <div class="hero__bottom">
@@ -46,7 +46,6 @@
       <p class="lead">Лазерна літотрипсія, лікування простати, онкоурологія. Дорослі та діти.</p>
     </div>
   </div>
-  <div class="media-ph"><b></b>Тут відео операційної · 10–15 с</div>
 </section>
 
 <section class="founder">
@@ -168,6 +167,11 @@
   <a class="btn btn--plain btn--blue" href="#" data-open-booking>Записатись</a>
 </div>
 
+<div class="modal modal--video" id="video" role="dialog" aria-modal="true" aria-label="Відео про клініку">
+  <button class="modal__close" data-close-video aria-label="Закрити">×</button>
+  <div class="video-frame"></div>
+</div>
+
 <div class="modal" id="booking" role="dialog" aria-modal="true" aria-labelledby="booking-title">
   <div class="modal__box">
     <button class="modal__close" data-close aria-label="Закрити">×</button>
@@ -184,6 +188,6 @@
   </div>
 </div>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js?v=bg2"></script>
 </body>
 </html>

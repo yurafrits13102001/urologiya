@@ -98,3 +98,69 @@
   }, { rootMargin: '0px 0px -10% 0px' });
   els.forEach(function (el) { io.observe(el); });
 })();
+
+// Фонове відео в хіро: YouTube без звуку, по колу, лише фрагмент [start, end].
+// Поки ролик не почав грати, видно фото; потім відео плавно проявляється.
+(function () {
+  var host = document.querySelector('.hero__video');
+  if (!host) return;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData = navigator.connection && navigator.connection.saveData;
+  if (reduce || saveData) return;
+  var id = host.getAttribute('data-yt');
+  var start = Number(host.getAttribute('data-start') || 0);
+  var end = Number(host.getAttribute('data-end') || 0);
+  var box = host.parentElement;
+  function fit() {
+    var w = box.clientWidth, h = box.clientHeight, W = w, H = w * 9 / 16;
+    if (H < h) { H = h; W = h * 16 / 9; }
+    // збільшуємо і притискаємо до верху так, щоб нижні 24% кадру (вшиті субтитри) були за межами блоку
+    var Ws = W * 1.35, Hs = H * 1.35;
+    host.style.width = Math.ceil(Ws) + 'px';
+    host.style.height = Math.ceil(Hs) + 'px';
+    host.style.top = Math.min(0, Math.round(h - Hs * 0.76)) + 'px';
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  var mount = document.createElement('div');
+  host.appendChild(mount);
+  window.onYouTubeIframeAPIReady = function () {
+    var vars = { autoplay: 1, mute: 1, controls: 0, playsinline: 1, rel: 0, modestbranding: 1, disablekb: 1, fs: 0, iv_load_policy: 3, start: start };
+    if (end) vars.end = end;
+    window.heroPlayer = new YT.Player(mount, {
+      videoId: id, width: '100%', height: '100%', host: 'https://www.youtube-nocookie.com', playerVars: vars,
+      events: {
+        onReady: function (e) { e.target.mute(); e.target.playVideo(); },
+        onStateChange: function (e) {
+          if (e.data === YT.PlayerState.PLAYING) setTimeout(function () { host.classList.add('is-playing'); }, 700);
+          if (e.data === YT.PlayerState.ENDED) { e.target.seekTo(start, true); e.target.playVideo(); }
+        }
+      }
+    });
+  };
+  var s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+
+// «Дивитись відео»: повний ролик зі звуком у вікні; фонове відео на цей час стає на паузу
+(function () {
+  var vm = document.getElementById('video');
+  if (!vm) return;
+  var frame = vm.querySelector('.video-frame');
+  var hero = function (fn) { try { if (window.heroPlayer && window.heroPlayer[fn]) window.heroPlayer[fn](); } catch (e) {} };
+  var close = function () { vm.classList.remove('is-open'); frame.innerHTML = ''; document.body.style.overflow = ''; hero('playVideo'); };
+  document.querySelectorAll('[data-open-video]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      hero('pauseVideo');
+      frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + a.getAttribute('data-open-video') + '?autoplay=1&rel=0" title="Відео про клініку" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+      vm.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  vm.querySelector('[data-close-video]').addEventListener('click', close);
+  vm.addEventListener('click', function (e) { if (e.target === vm) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && vm.classList.contains('is-open')) close(); });
+})();
