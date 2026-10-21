@@ -134,31 +134,6 @@ h3 { font-size: 24px; line-height: 1.1; }
 .hero__facts dd { margin: 0; font-family: var(--mono); font-size: 14px; color: var(--text); white-space: nowrap; }
 .hero__facts a { color: var(--text); }
 
-/* ---------- Лінійка каменя ---------- */
-.stone__ui { margin-top: 36px; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg-2); padding: 28px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px 40px; }
-.seg { grid-column: 1 / -1; display: inline-flex; justify-self: start; border: 1px solid var(--line-2); border-radius: 8px; overflow: hidden; }
-.seg button { min-height: 44px; padding: 0 18px; border: 0; border-right: 1px solid var(--line-2); background: transparent; color: var(--text-2); font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-.seg button:last-child { border-right: 0; }
-.seg button[aria-checked="true"] { background: var(--cyan); color: var(--on-cyan); }
-.stone__stage { display: flex; align-items: center; gap: 28px; min-height: 280px; }
-.stone__view { flex: none; width: 280px; height: 280px; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(circle, rgba(44,191,217,.06), transparent 70%); border: 1px dashed var(--line-2); }
-.stone__pebble { display: block; width: 30px; height: 30px; border-radius: 46% 54% 58% 42% / 52% 44% 56% 48%; background: radial-gradient(circle at 34% 30%, #f0c787, var(--stone) 45%, var(--stone-2)); box-shadow: inset -4px -6px 10px rgba(0,0,0,.25), 0 6px 18px rgba(0,0,0,.35); transition: width .15s ease, height .15s ease; }
-.stone__readout { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
-.stone__readout b { font-family: var(--display); font-size: 88px; font-weight: 600; line-height: .9; font-variant-numeric: tabular-nums; }
-.stone__readout span { font-family: var(--display); font-size: 28px; color: var(--text-2); }
-.stone__readout small { flex-basis: 100%; font-size: 10px; color: var(--text-3); }
-.stone__track { grid-column: 1 / -1; }
-.stone__track input { width: 100%; height: 28px; margin: 0; accent-color: var(--stone); cursor: pointer; }
-.stone__ticks { position: relative; height: 18px; margin-top: 6px; font-size: 10px; color: var(--text-3); }
-.stone__ticks span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
-.stone__ticks span:first-child { transform: none; }
-.stone__ticks span:last-child { transform: translateX(-100%); }
-.stone__result { grid-column: 2; grid-row: 2; align-self: center; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding-left: 28px; border-left: 2px solid var(--stone); }
-.stone__result .mono { color: var(--stone); }
-.stone__result h3 { font-size: clamp(30px, 3vw, 44px); }
-.stone__result p { margin: 0; color: var(--text-2); max-width: 46ch; }
-.stone__meta { color: var(--text) !important; line-height: 1.6; }
-
 /* ---------- Шлях пацієнта (справжня послідовність) ---------- */
 .path { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; counter-reset: p; }
 .path li { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 32px 22px 0 0; border-top: 1px solid var(--line-2); }
@@ -295,8 +270,6 @@ h3 { font-size: 24px; line-height: 1.1; }
   .rows--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .header.is-open .nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
-  .stone__ui { grid-template-columns: 1fr; }
-  .stone__result { grid-column: 1; grid-row: auto; padding-left: 20px; }
 }
 @media (max-width: 768px) {
   :root { --pad: 20px; }
@@ -307,12 +280,6 @@ h3 { font-size: 24px; line-height: 1.1; }
   .nav a { min-height: 0; padding: 16px 20px; }
   .nav a .mono { font-size: 22px; }
   .sec { padding: 56px var(--pad); }
-  .stone__ui { padding: 20px; gap: 22px; }
-  .seg { display: flex; width: 100%; }
-  .seg button { flex: 1; padding: 0 8px; font-size: 11px; }
-  .stone__stage { flex-direction: column; align-items: flex-start; min-height: 0; gap: 16px; }
-  .stone__view { width: 100%; height: 220px; border-radius: 16px; }
-  .stone__readout b { font-size: 64px; }
   .founder { grid-template-columns: 1fr; }
   .founder__media { order: -1; }
   .founder__media img { aspect-ratio: 4 / 4.2; height: auto; }
@@ -369,7 +336,6 @@ h3 { font-size: 24px; line-height: 1.1; }
   html:not(.is-touch) .row:hover .row__t { color: var(--cyan); }
   html:not(.is-touch) .row:hover svg { transform: translateX(4px); }
   html:not(.is-touch) .link:hover { color: var(--cyan); border-color: var(--cyan); }
-  html:not(.is-touch) .seg button:not([aria-checked="true"]):hover { color: var(--text); background: var(--bg-3); }
   html:not(.is-touch) .footer a:hover { color: var(--text); }
   html:not(.is-touch) .socials a:hover { background: var(--cyan); border-color: var(--cyan); color: var(--on-cyan); }
 }

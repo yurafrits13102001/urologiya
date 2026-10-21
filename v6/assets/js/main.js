@@ -128,65 +128,6 @@ document.addEventListener('pointermove', function (e) { if (e.pointerType === 'm
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && vm.classList.contains('is-open')) close(); });
 })();
 
-// ---------- Лінійка каменя: розмір і місце → метод ----------
-(function () {
-  var ui = document.querySelector('[data-stone]');
-  if (!ui) return;
-  var range = ui.querySelector('input[type=range]');
-  var out = ui.querySelector('[data-size]');
-  var peb = ui.querySelector('.stone__pebble');
-  var view = ui.querySelector('.stone__view');
-  var hint = ui.querySelector('.stone__readout small');
-  var ticks = ui.querySelector('.stone__ticks');
-  var MIN = 2, MAX = 70, L = Math.log(MAX / MIN);
-  var toSize = function (v) { return Math.round(MIN * Math.exp(v / 1000 * L)); };
-  var toVal = function (s) { return Math.log(s / MIN) / L * 1000; };
-  [[2, '2 мм'], [5, '5 мм'], [10, '1 см'], [20, '2 см'], [40, '4 см'], [70, '7 см']].forEach(function (t) {
-    var el = document.createElement('span');
-    el.textContent = t[1];
-    el.style.left = (toVal(t[0]) / 10) + '%';
-    ticks.appendChild(el);
-  });
-  var STAY_URS = 'Одноденна госпіталізація · додому через годину після операції';
-  var R = {
-    kidney: function (s) {
-      if (s <= 10) return ['ДЛТ або РІРС', 'Камінь до 1 см часто дроблять ззовні ударною хвилею, без операції. Якщо він щільний або не піддається — лазером через природні шляхи.', 'ДЛТ — 20 000 грн · якщо не допомогла, лазерна літотрипсія безкоштовно'];
-      if (s <= 20) return ['РІРС — лазерна літотрипсія', 'Гнучкий ендоскоп заходить через природні шляхи, лазер дробить камінь до 2 см. Без розрізів і проколів.', 'У стаціонарі не більше доби · відновлення 1–2 дні'];
-      return ['Міні-ПНЛ', 'Камінь понад 2 см, зокрема коралоподібний, видаляють через мініатюрний прокол на шкірі. Так прибирають камені до 7 см.', 'У стаціонарі 1–2 дні · відновлення 2–3 дні'];
-    },
-    ureter: function (s) {
-      if (s <= 10) return ['ДЛТ або УРС', 'Невеликий камінь у нижній третині сечоводу можуть роздробити ззовні. Інакше — лазером через природні шляхи.', STAY_URS];
-      return ['УРС — лазер у сечоводі', 'Ендоскоп заходить через природні шляхи до каменя в сечоводі, і лазер дробить його на місці.', STAY_URS];
-    },
-    bladder: function () {
-      return ['Цистолітотрипсія', 'Камені сечового міхура дроблять лазером через природні шляхи, без розрізів.', 'Без розрізів · через природні шляхи'];
-    }
-  };
-  var where = 'kidney';
-  function render() {
-    var s = toSize(Number(range.value));
-    out.textContent = s;
-    var px = s * 96 / 25.4, cap = view.clientWidth * 0.86;
-    var shown = Math.min(px, cap);
-    peb.style.width = shown + 'px';
-    peb.style.height = (shown * 0.86) + 'px';
-    hint.textContent = px > cap ? 'зменшено, щоб вмістилось' : 'приблизно в натуральну величину';
-    var r = R[where](s);
-    ui.querySelector('[data-r-name]').textContent = r[0];
-    ui.querySelector('[data-r-text]').textContent = r[1];
-    ui.querySelector('[data-r-meta]').textContent = r[2];
-  }
-  range.addEventListener('input', render);
-  ui.querySelectorAll('.seg button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      where = b.getAttribute('data-where');
-      ui.querySelectorAll('.seg button').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
-      render();
-    });
-  });
-  window.addEventListener('resize', render);
-  render();
-})();
 
 // ---------- Фонове відео в хіро ----------
 // YouTube без звуку, фрагмент [start, end] по колу. Кадр збільшено й притиснуто вгору,
