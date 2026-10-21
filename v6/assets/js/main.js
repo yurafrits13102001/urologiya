@@ -112,10 +112,12 @@ document.addEventListener('pointermove', function (e) { if (e.pointerType === 'm
   var vm = document.getElementById('video');
   if (!vm) return;
   var frame = vm.querySelector('.video-frame');
-  var close = function () { vm.classList.remove('is-open'); frame.innerHTML = ''; document.body.style.overflow = ''; };
+  var hero = function (fn) { try { if (window.heroPlayer && window.heroPlayer[fn]) window.heroPlayer[fn](); } catch (e) {} };
+  var close = function () { vm.classList.remove('is-open'); frame.innerHTML = ''; document.body.style.overflow = ''; hero('playVideo'); };
   document.querySelectorAll('[data-open-video]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
+      hero('pauseVideo');
       frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + a.getAttribute('data-open-video') + '?autoplay=1&rel=0" title="Відео про клініку" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
       vm.classList.add('is-open');
       document.body.style.overflow = 'hidden';
@@ -124,96 +126,6 @@ document.addEventListener('pointermove', function (e) { if (e.pointerType === 'm
   vm.querySelector('[data-close-video]').addEventListener('click', close);
   vm.addEventListener('click', function (e) { if (e.target === vm) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && vm.classList.contains('is-open')) close(); });
-})();
-
-// ---------- Відеокружечок лікаря ----------
-// Без звуку грає фрагмент [start, end] по колу. Натискання — звук і ролик з початку.
-// Якщо браузер не дає ввімкнути звук у вбудованому плеєрі, ролик відкривається у вікні.
-(function () {
-  var note = document.querySelector('.note[data-yt]');
-  if (!note) return;
-  var circle = note.querySelector('.note__circle');
-  var host = note.querySelector('.note__video');
-  var prog = note.querySelector('.note__prog');
-  var id = note.getAttribute('data-yt');
-  var A = Number(note.getAttribute('data-start') || 0);
-  var B = Number(note.getAttribute('data-end') || 0);
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var saveData = navigator.connection && navigator.connection.saveData;
-  var player = null, ready = false, loading = false, pending = null, sound = false, timer = null;
-
-  function fit() {
-    var D = circle.clientWidth, Hs = D * 1.35, Ws = Hs * 16 / 9;
-    host.style.width = Math.ceil(Ws) + 'px';
-    host.style.height = Math.ceil(Hs) + 'px';
-    host.style.top = Math.min(0, Math.round(D - Hs * 0.76)) + 'px';
-  }
-  fit();
-  window.addEventListener('resize', fit);
-
-  function tick() {
-    if (!ready) return;
-    var t = player.getCurrentTime() || 0, d = player.getDuration() || 69, pct;
-    if (sound) pct = t / d * 100;
-    else {
-      if (B && t >= B) { player.seekTo(A, true); t = A; }
-      pct = (t - A) / ((B || d) - A) * 100;
-    }
-    prog.style.strokeDashoffset = String(100 - Math.max(0, Math.min(100, pct)));
-  }
-  function toMuted() {
-    sound = false; note.classList.remove('is-sound');
-    player.mute(); player.seekTo(A, true); player.playVideo();
-  }
-  function openModal() {
-    var vm = document.getElementById('video');
-    if (!vm) return;
-    vm.querySelector('.video-frame').innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0" title="Відео від лікаря" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
-    vm.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-  }
-  function toSound() {
-    sound = true; note.classList.add('is-sound');
-    player.unMute(); player.setVolume(100); player.seekTo(0, true); player.playVideo();
-    setTimeout(function () { if (sound && player.isMuted && player.isMuted()) { toMuted(); openModal(); } }, 900);
-  }
-  function load(cb) {
-    if (ready) { if (cb) cb(); return; }
-    if (cb) pending = cb;
-    if (loading) return;
-    loading = true;
-    window.onYouTubeIframeAPIReady = function () {
-      var mount = document.createElement('div');
-      host.appendChild(mount);
-      player = new YT.Player(mount, {
-        videoId: id, width: '100%', height: '100%', host: 'https://www.youtube-nocookie.com',
-        playerVars: { autoplay: 1, mute: 1, controls: 0, playsinline: 1, rel: 0, modestbranding: 1, disablekb: 1, fs: 0, iv_load_policy: 3, start: A },
-        events: {
-          onReady: function (e) {
-            ready = true; e.target.mute(); e.target.playVideo();
-            if (pending) { var p = pending; pending = null; p(); }
-          },
-          onStateChange: function (e) {
-            if (e.data === YT.PlayerState.PLAYING) {
-              setTimeout(function () { host.classList.add('is-playing'); }, 500);
-              if (!timer) timer = setInterval(tick, 250);
-            }
-            if (e.data === YT.PlayerState.ENDED) toMuted();
-          }
-        }
-      });
-    };
-    var s = document.createElement('script');
-    s.src = 'https://www.youtube.com/iframe_api';
-    s.async = true;
-    document.head.appendChild(s);
-  }
-  circle.addEventListener('click', function () {
-    if (!ready) { load(toSound); return; }
-    if (!sound) { toSound(); return; }
-    if (player.getPlayerState() === 1) player.pauseVideo(); else player.playVideo();
-  });
-  if (!reduce && !saveData) load();
 })();
 
 // ---------- Лінійка каменя: розмір і місце → метод ----------
@@ -274,4 +186,67 @@ document.addEventListener('pointermove', function (e) { if (e.pointerType === 'm
   });
   window.addEventListener('resize', render);
   render();
+})();
+
+// ---------- Фонове відео в хіро ----------
+// YouTube без звуку, фрагмент [start, end] по колу. Кадр збільшено й притиснуто вгору,
+// щоб вшиті в ролик субтитри були за межами блоку. Кільце на кнопці «Дивитись відео»
+// заповнюється в такт фрагменту.
+(function () {
+  var host = document.querySelector('.hero__video');
+  if (!host) return;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData = navigator.connection && navigator.connection.saveData;
+  if (reduce || saveData) return;
+  var id = host.getAttribute('data-yt');
+  var A = Number(host.getAttribute('data-start') || 0);
+  var B = Number(host.getAttribute('data-end') || 0);
+  var box = host.parentElement;
+  var ring = document.querySelector('.watch__prog');
+  var player = null, ready = false, timer = null;
+  function fit() {
+    var w = box.clientWidth, h = box.clientHeight, W = w, H = w * 9 / 16;
+    if (H < h) { H = h; W = h * 16 / 9; }
+    var Ws = W * 1.35, Hs = H * 1.35;
+    host.style.width = Math.ceil(Ws) + 'px';
+    host.style.height = Math.ceil(Hs) + 'px';
+    host.style.top = Math.min(0, Math.round(h - Hs * 0.76)) + 'px';
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  function tick() {
+    if (!ready || !player.getCurrentTime) return;
+    var t = player.getCurrentTime() || 0;
+    if (B && t >= B) { player.seekTo(A, true); t = A; }
+    if (ring) {
+      var pct = (t - A) / ((B || player.getDuration() || 69) - A) * 100;
+      ring.style.strokeDashoffset = String(100 - Math.max(0, Math.min(100, pct)));
+    }
+  }
+  window.onYouTubeIframeAPIReady = function () {
+    var mount = document.createElement('div');
+    host.appendChild(mount);
+    player = new YT.Player(mount, {
+      videoId: id, width: '100%', height: '100%', host: 'https://www.youtube-nocookie.com',
+      playerVars: { autoplay: 1, mute: 1, controls: 0, playsinline: 1, rel: 0, modestbranding: 1, disablekb: 1, fs: 0, iv_load_policy: 3, start: A },
+      events: {
+        onReady: function (e) { ready = true; window.heroPlayer = e.target; e.target.mute(); e.target.playVideo(); },
+        onStateChange: function (e) {
+          if (e.data === YT.PlayerState.PLAYING) {
+            setTimeout(function () { host.classList.add('is-playing'); }, 600);
+            if (!timer) timer = setInterval(tick, 250);
+          }
+          if (e.data === YT.PlayerState.ENDED) { e.target.seekTo(A, true); e.target.playVideo(); }
+        }
+      }
+    });
+  };
+  // повернулись на вкладку — фон знову грає (якщо не відкрито відео зі звуком)
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && ready && !document.querySelector('#video.is-open')) player.playVideo();
+  });
+  var s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.async = true;
+  document.head.appendChild(s);
 })();

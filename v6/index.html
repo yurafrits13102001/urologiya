@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=f56d38e2">
+<link rel="stylesheet" href="assets/css/style.css?v=06397ad5">
 </head>
 <body>
 <header class="header">
@@ -33,32 +33,40 @@
   </nav>
 </header>
 
-<section class="hero wrap">
-  <div class="hero__text">
-    <span class="mono hero__kicker">Чернівці · центр малоінвазивної урології</span>
+<section class="hero">
+  <div class="hero__bg">
+    <img src="assets/img/img_4659-scaled.jpg" alt="" fetchpriority="high">
+    <div class="hero__video" data-yt="uYGhQ08PTa0" data-start="10" data-end="64" aria-hidden="true"></div>
+  </div>
+  <div class="hero__top">
+    <a class="watch" href="https://www.youtube.com/watch?v=uYGhQ08PTa0" data-open-video="uYGhQ08PTa0">
+      <span class="watch__circle">
+        <img src="assets/img/lypka.jpg" alt="">
+        <svg class="watch__ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="watch__track" cx="50" cy="50" r="47"/><circle class="watch__prog" cx="50" cy="50" r="47" pathLength="100"/></svg>
+        <span class="watch__play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z"/></svg></span>
+      </span>
+      <span class="watch__text"><b>Дивитись відео</b><span class="mono">Василь Липка · 1:09</span></span>
+    </a>
+    <span class="mono hero__where">Чернівці · вул. Чорноморська, 4А</span>
+  </div>
+  <div class="hero__bottom">
+    <span class="mono hero__kicker">Центр малоінвазивної урології</span>
     <h1>Камені в нирках — <span class="hl">без болю, розрізів і&nbsp;крові</span></h1>
-    <p class="lead">Лазер і ендоскоп замість скальпеля. Як правило, не довше доби в клініці. Приймаємо дорослих і дітей.</p>
     <div class="hero__cta">
       <a class="btn btn--blue btn--lg" href="#" data-open-booking><span>Записатись на прийом</span><span class="btn__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-      <a class="hero__phone" href="tel:+380953392592">+38 (095) 339-25-92</a>
+      <p class="lead">Лазер і ендоскоп замість скальпеля. Як правило, не довше доби в клініці. Дорослі та діти.</p>
     </div>
-    <dl class="hero__facts">
-      <div><dt class="mono">Консультація</dt><dd>700 грн</dd></div>
-      <div><dt class="mono">З УЗД</dt><dd>1 200 грн</dd></div>
-      <div><dt class="mono">Лазер</dt><dd>Quanta Cyber Ho, 60 Вт</dd></div>
-    </dl>
   </div>
-
-  <figure class="note" data-yt="uYGhQ08PTa0" data-start="10" data-end="64">
-    <div class="note__circle">
-      <img class="note__poster" src="assets/img/lypka.jpg" alt="Василь Липка, лікар-уролог">
-      <div class="note__video" aria-hidden="true"></div>
-      <svg class="note__ring" viewBox="0 0 100 100" aria-hidden="true"><circle class="note__track" cx="50" cy="50" r="48.6"/><circle class="note__prog" cx="50" cy="50" r="48.6" pathLength="100"/></svg>
-      <button class="note__sound" type="button" aria-label="Подивитись зі звуком"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg><span>Зі звуком</span></button>
-    </div>
-    <figcaption class="note__cap"><b>Василь Липка</b><span class="mono">уролог, онкохірург · 1:09</span></figcaption>
-  </figure>
 </section>
+
+<div class="facts wrap">
+  <dl class="hero__facts">
+    <div><dt class="mono">Консультація</dt><dd>700 грн</dd></div>
+    <div><dt class="mono">З УЗД</dt><dd>1 200 грн</dd></div>
+    <div><dt class="mono">Лазер</dt><dd>Quanta Cyber Ho, 60 Вт</dd></div>
+    <div><dt class="mono">Телефон</dt><dd><a href="tel:+380953392592">+38 (095) 339-25-92</a></dd></div>
+  </dl>
+</div>
 
 <section class="sec stone" id="kamin">
   <div class="sec__idx"><span class="mono">Камінь → метод</span></div>
@@ -219,6 +227,6 @@
   </div>
 </div>
 
-<script src="assets/js/main.js?v=f56d38e2"></script>
+<script src="assets/js/main.js?v=06397ad5"></script>
 </body>
 </html>
