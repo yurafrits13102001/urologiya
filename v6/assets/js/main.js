@@ -4,16 +4,18 @@
   var header = document.querySelector('.header');
   var burger = document.querySelector('.burger');
   if (burger && header) {
-    burger.addEventListener('click', function () {
-      header.classList.toggle('is-open');
-      burger.classList.toggle('is-open');
-    });
+    var label = burger.querySelector('span');
+    var setMenu = function (open) {
+      header.classList.toggle('is-open', open);
+      burger.classList.toggle('is-open', open);
+      document.documentElement.classList.toggle('menu-open', open);
+      if (label) label.textContent = open ? 'Закрити' : 'Більше';
+    };
+    burger.addEventListener('click', function () { setMenu(!header.classList.contains('is-open')); });
     header.querySelectorAll('.nav a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        header.classList.remove('is-open');
-        burger.classList.remove('is-open');
-      });
+      a.addEventListener('click', function () { setMenu(false); });
     });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
   }
 
   // Модалка "Записатись"
@@ -190,4 +192,42 @@ document.addEventListener('pointermove', function (e) { if (e.pointerType === 'm
   s.src = 'https://www.youtube.com/iframe_api';
   s.async = true;
   document.head.appendChild(s);
+})();
+
+// ---------- Хвороби: активна група в рядку переходів ----------
+(function () {
+  var bar = document.querySelector('[data-chips]');
+  if (!bar || !('IntersectionObserver' in window)) return;
+  var row = bar.querySelector('.chips__in');
+  var chips = [].slice.call(bar.querySelectorAll('.chip'));
+  var setOn = function (id) {
+    chips.forEach(function (c) {
+      var on = c.getAttribute('href') === '#' + id;
+      c.classList.toggle('is-on', on);
+      if (on) row.scrollTo({ left: c.offsetLeft - (row.clientWidth - c.offsetWidth) / 2, behavior: 'smooth' });
+    });
+  };
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) setOn(e.target.id); });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  document.querySelectorAll('.dgroup').forEach(function (g) { io.observe(g); });
+})();
+
+// ---------- Плитки з'являються по черзі ----------
+(function () {
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  var groups = [].slice.call(document.querySelectorAll('.dgroup, .sec')).filter(function (g) { return g.querySelector('.tile'); });
+  groups.forEach(function (g) { g.classList.add('pre'); });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var g = e.target;
+      io.unobserve(g);
+      g.classList.add('anim');
+      setTimeout(function () { g.classList.remove('pre'); }, 30);
+      setTimeout(function () { g.classList.remove('anim'); }, 1200);
+    });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  groups.forEach(function (g) { io.observe(g); });
 })();

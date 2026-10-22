@@ -94,10 +94,6 @@ h3 { font-size: 24px; line-height: 1.1; }
 .menu-btn i::before, .menu-btn i::after { content: ""; display: block; width: 18px; height: 2px; background: var(--text); }
 .menu-btn i::after { width: 12px; }
 .nav { display: none; }
-.header.is-open .nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; position: absolute; left: 0; right: 0; top: 84px; background: var(--line); border-bottom: 1px solid var(--line); }
-.nav a { display: flex; align-items: flex-end; min-height: 120px; padding: 22px; background: var(--bg); }
-.nav a .mono { font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--text); }
-.nav a.is-active .mono { color: var(--cyan); }
 
 /* ---------- Хіро: фонове відео + кнопка-кружечок «Дивитись відео» ---------- */
 .hero { position: relative; isolation: isolate; margin: 16px var(--pad) 0; min-height: 660px; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding: 28px 36px 40px; }
@@ -268,7 +264,6 @@ h3 { font-size: 24px; line-height: 1.1; }
   .path li::before { top: 2px; left: -6px; }
   .path li:last-child { padding-bottom: 0; }
   .rows--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .header.is-open .nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 768px) {
@@ -276,9 +271,6 @@ h3 { font-size: 24px; line-height: 1.1; }
   .header__inner { height: 68px; }
   .logo img { height: 34px; }
   .header__phone, .header__cta .btn { display: none; }
-  .header.is-open .nav { top: 68px; grid-template-columns: 1fr; }
-  .nav a { min-height: 0; padding: 16px 20px; }
-  .nav a .mono { font-size: 22px; }
   .sec { padding: 56px var(--pad); }
   .founder { grid-template-columns: 1fr; }
   .founder__media { order: -1; }
@@ -304,6 +296,73 @@ h3 { font-size: 24px; line-height: 1.1; }
   .callbar .btn { flex: 1; justify-content: center; padding: 0 16px; }
   .callbar .btn:not(.btn--blue) { background: var(--bg-2); }
   body { padding-bottom: 76px; }
+}
+
+/* ---------- Меню на весь екран ---------- */
+html.menu-open { overflow: hidden; }
+/* розмиття шапки робить її рамкою для fixed-нащадків — на час меню прибираємо */
+.header.is-open { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--bg); }
+.header.is-open .nav { display: flex; flex-direction: column; gap: 20px; position: fixed; left: 0; right: 0; top: 84px; bottom: 0; overflow-y: auto; background: var(--bg); border-top: 1px solid var(--line); padding: 20px var(--pad) 32px; }
+.nav__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.nav__list a { display: flex; flex-direction: column; justify-content: space-between; gap: 28px; min-height: 140px; padding: 20px; background: var(--bg); transition: background .2s; -webkit-tap-highlight-color: transparent; }
+.nav__t { font-family: var(--display); font-size: 28px; font-weight: 600; line-height: 1.05; color: var(--text); transition: color .2s; }
+.nav__s { font-size: 11px; color: var(--text-3); }
+.nav__list a.is-active .nav__t { color: var(--cyan); }
+.nav__foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.nav__phone { font-family: var(--display); font-size: 28px; font-weight: 600; color: var(--text); }
+@media (prefers-reduced-motion: no-preference) {
+  .header.is-open .nav__list a { animation: navIn .42s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 45ms); }
+  .header.is-open .nav__foot { animation: navIn .42s cubic-bezier(.2,.8,.2,1) .32s both; }
+  @keyframes navIn { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+}
+
+/* ---------- Хвороби: швидкі переходи і групи плиток ---------- */
+.chips { position: sticky; top: 84px; z-index: 30; background: rgba(11,17,22,.92); backdrop-filter: blur(10px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.chips__in { display: flex; gap: 8px; overflow-x: auto; padding-top: 12px; padding-bottom: 12px; scrollbar-width: none; }
+.chips__in::-webkit-scrollbar { display: none; }
+.chip { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: 999px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-2); transition: background .2s, color .2s, border-color .2s; -webkit-tap-highlight-color: transparent; }
+.chip span { color: var(--text-3); }
+.chip.is-on { background: var(--cyan); border-color: var(--cyan); color: var(--on-cyan); }
+.chip.is-on span { color: var(--on-cyan); opacity: .7; }
+.dgroup { display: grid; grid-template-columns: 220px 1fr; gap: 48px; padding: 56px var(--pad); border-top: 1px solid var(--line); scroll-margin-top: 150px; }
+.chips + .dgroup { border-top: 0; }
+.dgroup__head { display: flex; align-items: baseline; gap: 12px; position: sticky; top: 168px; align-self: start; }
+.dgroup__head h2 { font-size: 34px; }
+.dgroup__head .mono { color: var(--cyan); }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.tile { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; min-height: 132px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); color: var(--text); transition: border-color .2s, transform .25s cubic-bezier(.2,.8,.2,1); -webkit-tap-highlight-color: transparent; }
+.tile::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(135deg, rgba(44,191,217,.14), transparent 60%); opacity: 0; transition: opacity .25s; }
+.tile__t { font-family: var(--display); font-size: 21px; font-weight: 600; line-height: 1.12; }
+.tile__a { align-self: flex-end; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-2); color: var(--cyan); transition: background .25s, color .25s, border-color .25s; }
+.tile__a svg { width: 16px; height: 16px; transform: rotate(-45deg); }
+.tile:active { border-color: var(--cyan); transform: scale(.98); }
+.tile:active::before { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .dgroup.pre .tile, .sec.pre .tile { transform: translateY(18px); }
+  .dgroup.anim .tile, .sec.anim .tile { transition: transform .5s cubic-bezier(.2,.8,.2,1), border-color .2s; transition-delay: calc(var(--i) * 55ms); }
+}
+
+@media (max-width: 1100px) {
+  .nav__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dgroup { grid-template-columns: 1fr; gap: 20px; }
+  .dgroup__head { position: static; }
+}
+@media (max-width: 768px) {
+  .header.is-open .nav { top: 68px; padding: 0 0 24px; gap: 18px; }
+  .nav__list { border-radius: 0; border-left: 0; border-right: 0; border-top: 0; }
+  .nav__list a { min-height: 104px; padding: 16px 18px; gap: 16px; }
+  .nav__t { font-size: 22px; }
+  .nav__s { font-size: 10px; }
+  .nav__foot { flex-direction: column; align-items: stretch; padding: 0 20px; }
+  .nav__phone { font-size: 24px; }
+  .nav__foot .btn { width: 100%; }
+  .chips { top: 68px; }
+  .dgroup { padding: 36px var(--pad); gap: 16px; scroll-margin-top: 130px; }
+  .dgroup__head h2 { font-size: 28px; }
+  .tiles { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tile { min-height: 112px; padding: 14px; gap: 14px; }
+  .tile__t { font-size: 17px; }
+  .tile__a { width: 30px; height: 30px; }
 }
 
 /* ---------- Наведення: лише миша; дотик вимикає (див. main.js) ---------- */
@@ -332,7 +391,12 @@ h3 { font-size: 24px; line-height: 1.1; }
   html:not(.is-touch) .btn:hover .btn__arrow svg { transform: translateX(4px); }
   html:not(.is-touch) .btn--blue:hover { color: var(--bg); border-color: var(--text); }
   html:not(.is-touch) .menu-btn:hover { background: var(--bg-2); }
-  html:not(.is-touch) .nav a:hover { background: var(--bg-2); }
+  html:not(.is-touch) .nav__list a:hover { background: var(--bg-2); }
+  html:not(.is-touch) .nav__list a:hover .nav__t { color: var(--cyan); }
+  html:not(.is-touch) .chip:not(.is-on):hover { color: var(--text); border-color: var(--text-3); }
+  html:not(.is-touch) .tile:hover { border-color: var(--cyan); transform: translateY(-3px); }
+  html:not(.is-touch) .tile:hover::before { opacity: 1; }
+  html:not(.is-touch) .tile:hover .tile__a { background: var(--cyan); border-color: var(--cyan); color: var(--on-cyan); }
   html:not(.is-touch) .row:hover .row__t { color: var(--cyan); }
   html:not(.is-touch) .row:hover svg { transform: translateX(4px); }
   html:not(.is-touch) .link:hover { color: var(--cyan); border-color: var(--cyan); }
@@ -344,5 +408,5 @@ h3 { font-size: 24px; line-height: 1.1; }
 .btn:active::before { transform: scaleX(1); transition-duration: .12s; }
 .btn--blue:active { color: var(--bg); border-color: var(--text); }
 .btn:active .btn__arrow svg { transform: translateX(4px); transition-duration: .12s; }
-.menu-btn:active, .nav a:active { background: var(--bg-2); }
+.menu-btn:active, .nav__list a:active { background: var(--bg-2); }
 .cta .btn--blue::before { background: var(--text); }
