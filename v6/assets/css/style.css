@@ -330,11 +330,9 @@ html.menu-open { overflow: hidden; }
 .dgroup__head h2 { font-size: 34px; }
 .dgroup__head .mono { color: var(--cyan); }
 .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.tile { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; min-height: 132px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); color: var(--text); transition: border-color .2s, transform .25s cubic-bezier(.2,.8,.2,1); -webkit-tap-highlight-color: transparent; }
+.tile { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; min-height: 96px; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); color: var(--text); transition: border-color .2s, transform .25s cubic-bezier(.2,.8,.2,1); -webkit-tap-highlight-color: transparent; }
 .tile::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(135deg, rgba(44,191,217,.14), transparent 60%); opacity: 0; transition: opacity .25s; }
 .tile__t { font-family: var(--display); font-size: 21px; font-weight: 600; line-height: 1.12; }
-.tile__a { align-self: flex-end; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-2); color: var(--cyan); transition: background .25s, color .25s, border-color .25s; }
-.tile__a svg { width: 16px; height: 16px; transform: rotate(-45deg); }
 .tile:active { border-color: var(--cyan); transform: scale(.98); }
 .tile:active::before { opacity: 1; }
 @media (prefers-reduced-motion: no-preference) {
@@ -360,9 +358,8 @@ html.menu-open { overflow: hidden; }
   .dgroup { padding: 36px var(--pad); gap: 16px; scroll-margin-top: 130px; }
   .dgroup__head h2 { font-size: 28px; }
   .tiles { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .tile { min-height: 112px; padding: 14px; gap: 14px; }
+  .tile { min-height: 84px; padding: 14px; gap: 10px; }
   .tile__t { font-size: 17px; }
-  .tile__a { width: 30px; height: 30px; }
 }
 
 /* ---------- Наведення: лише миша; дотик вимикає (див. main.js) ---------- */
@@ -396,7 +393,6 @@ html.menu-open { overflow: hidden; }
   html:not(.is-touch) .chip:not(.is-on):hover { color: var(--text); border-color: var(--text-3); }
   html:not(.is-touch) .tile:hover { border-color: var(--cyan); transform: translateY(-3px); }
   html:not(.is-touch) .tile:hover::before { opacity: 1; }
-  html:not(.is-touch) .tile:hover .tile__a { background: var(--cyan); border-color: var(--cyan); color: var(--on-cyan); }
   html:not(.is-touch) .row:hover .row__t { color: var(--cyan); }
   html:not(.is-touch) .row:hover svg { transform: translateX(4px); }
   html:not(.is-touch) .link:hover { color: var(--cyan); border-color: var(--cyan); }
