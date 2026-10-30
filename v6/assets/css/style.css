@@ -119,7 +119,8 @@ h3 { font-size: 24px; line-height: 1.1; }
 .watch:active .watch__circle img { transform: scale(1.06); }
 .hero__bottom { display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
 .hero__kicker { color: var(--cyan); }
-.hero h1 { max-width: 15ch; }
+/* заголовок — гасло лікаря зі старого слайдера, воно довге: дрібніший кегль і ширший рядок */
+.hero h1 { max-width: 22ch; font-size: clamp(36px, 4.2vw, 62px); }
 .hero__cta { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
 .hero__cta .lead { margin: 0; max-width: 40ch; font-size: 15px; color: var(--text); opacity: .85; }
 .facts { padding-top: 16px; }
@@ -130,14 +131,8 @@ h3 { font-size: 24px; line-height: 1.1; }
 .hero__facts dd { margin: 0; font-family: var(--mono); font-size: 14px; color: var(--text); white-space: nowrap; }
 .hero__facts a { color: var(--text); }
 
-/* ---------- Шлях пацієнта (справжня послідовність) ---------- */
-.path { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; counter-reset: p; }
-.path li { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 32px 22px 0 0; border-top: 1px solid var(--line-2); }
-.path li::before { content: ""; position: absolute; top: -6px; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--cyan); }
-.path__n { color: var(--text-3); }
-.path h3 { font-size: 26px; }
-.path p { margin: 0; font-size: 14px; color: var(--text-2); line-height: 1.55; }
-.path__m { margin-top: auto; padding-top: 8px; color: var(--cyan); }
+/* підзаголовок усередині секції (напр. «Переваги ендоскопії» на головній) */
+.sec__sub { margin: 44px 0 16px; font-size: 23px; }
 
 /* ---------- Лікар ---------- */
 .founder { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; min-height: 600px; }
@@ -201,7 +196,7 @@ h3 { font-size: 24px; line-height: 1.1; }
 /* ---------- Форма й модалки ---------- */
 .form { display: grid; gap: 12px; }
 .form label { display: grid; gap: 6px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-3); }
-.form input, .form textarea { font: inherit; font-size: 16px; padding: 14px 16px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--bg); color: var(--text); width: 100%; }
+.form input:not([type=submit]), .form textarea { font: inherit; font-size: 16px; padding: 14px 16px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--bg); color: var(--text); width: 100%; }
 .form input::placeholder, .form textarea::placeholder { color: var(--text-3); }
 .form input:focus, .form textarea:focus { outline: 2px solid var(--cyan); outline-offset: -1px; }
 .form textarea { min-height: 100px; resize: vertical; }
@@ -259,10 +254,6 @@ h3 { font-size: 24px; line-height: 1.1; }
   :root { --pad: 32px; }
   .sec { grid-template-columns: 1fr; gap: 20px; }
   .sec__idx { position: static; }
-  .path { grid-template-columns: 1fr; }
-  .path li { padding: 0 0 28px 30px; border-top: 0; border-left: 1px solid var(--line-2); }
-  .path li::before { top: 2px; left: -6px; }
-  .path li:last-child { padding-bottom: 0; }
   .rows--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__grid { grid-template-columns: 1fr 1fr; }
 }
@@ -366,6 +357,11 @@ html.menu-open { overflow: hidden; }
 .art { display: grid; grid-template-columns: 220px minmax(0, 760px); gap: 48px; padding-top: 48px; padding-bottom: 80px; }
 .art__side { position: sticky; top: 108px; align-self: start; display: flex; flex-direction: column; gap: 10px; }
 .art__back { color: var(--cyan); }
+/* зміст довгої сторінки («Про нас») */
+.art__toc { gap: 0; border-top: 1px solid var(--line); }
+.art__toc a { padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; line-height: 1.4; color: var(--text-2); }
+.art__toc a:hover { color: var(--cyan); }
+.prose h2[id] { scroll-margin-top: 110px; }
 .prose { min-width: 0; }
 .prose h1 { font-size: clamp(36px, 4.4vw, 60px); margin-bottom: 28px; }
 .prose h2 { font-size: clamp(26px, 2.6vw, 34px); margin: 44px 0 14px; }
@@ -417,6 +413,7 @@ html.menu-open { overflow: hidden; }
 @media (max-width: 1100px) {
   .art { grid-template-columns: 1fr; gap: 16px; padding-top: 32px; }
   .art__side { position: static; flex-direction: row; justify-content: space-between; }
+  .art__side.art__toc { flex-direction: column; justify-content: flex-start; }
   .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nav__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nav__list a:last-child:nth-child(odd) { grid-column: 1 / -1; }
@@ -474,3 +471,20 @@ html.menu-open { overflow: hidden; }
 .btn:active .btn__arrow svg { transform: translateX(4px); transition-duration: .12s; }
 .menu-btn:active, .nav__list a:active { background: var(--bg-2); }
 .cta .btn--blue::before { background: var(--text); }
+
+/* ---------- WordPress: сторінка «Відгуки» і форма Contact Form 7 ---------- */
+.reviews { columns: 3 300px; column-gap: 12px; padding-bottom: 80px; }
+.review { break-inside: avoid; margin: 0 0 12px; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
+.review__stars { color: var(--cyan); font-size: 14px; letter-spacing: 2px; }
+.review h3 { margin: 10px 0 8px; font-size: 20px; }
+.review blockquote { margin: 0 0 14px; color: #c7d1d8; }
+.review blockquote p { margin: 0 0 10px; }
+.review figcaption { color: var(--text-3); }
+.wpcf7-form-control-wrap { display: block; }
+.wpcf7-not-valid-tip { display: block; margin-top: 6px; font-family: var(--sans); font-size: 13px; letter-spacing: 0; text-transform: none; color: #ff9b8f; }
+.wpcf7-submit.btn { min-height: 56px; }
+.wpcf7-spinner { display: none; }
+.wpcf7 form.submitting .wpcf7-spinner { display: block; margin: 0 auto; }
+.wpcf7 form .wpcf7-response-output { margin: 0; padding: 14px 16px; border: 1px solid var(--line-2); border-radius: 8px; font-size: 14px; }
+.wpcf7 form.sent .wpcf7-response-output { border-color: var(--cyan); color: var(--cyan-2); font-weight: 500; }
+.wpcf7 form.invalid .wpcf7-response-output, .wpcf7 form.failed .wpcf7-response-output, .wpcf7 form.spam .wpcf7-response-output, .wpcf7 form.unaccepted .wpcf7-response-output { border-color: #ff9b8f; color: #ffc2ba; }

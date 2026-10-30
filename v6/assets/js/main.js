@@ -39,37 +39,35 @@
     });
   });
 
-  // Калькулятор ниркової коліки
+  // Калькулятор ниркової коліки — підрахунок і тексти як у калькуляторі лікаря на старому сайті;
+  // події ті самі, що там: на них можуть спиратися аналітика й реклама
+  var track = function (ev, fb) {
+    if (typeof gtag === 'function') gtag('event', ev);
+    if (typeof fbq === 'function') fbq('track', fb);
+  };
   var calc = document.getElementById('calc');
   if (calc) {
     var btn = calc.querySelector('[data-calc-run]');
     var result = calc.querySelector('.calc__result');
+    var results = JSON.parse(calc.getAttribute('data-results'));
     btn.addEventListener('click', function () {
-      var checked = calc.querySelectorAll('input:checked');
-      var score = 0;
-      checked.forEach(function (c) { score += Number(c.dataset.weight || 1); });
-      var level, title, text;
-      if (score === 0) {
-        level = 'low'; title = 'Ви не відмітили жодного симптому';
-        text = 'Оберіть симптоми, які вас турбують, і натисніть «Оцінити ризик» ще раз.';
-      } else if (score <= 3) {
-        level = 'low'; title = 'Низька ймовірність ниркової коліки';
-        text = 'Симптоми не є типовими для ниркової коліки. Якщо вони зберігаються або посилюються, запишіться на консультацію уролога та УЗД.';
-      } else if (score <= 6) {
-        level = 'mid'; title = 'Середня ймовірність ниркової коліки';
-        text = 'Є кілька характерних ознак. Рекомендуємо консультацію уролога найближчим часом. Пийте достатньо води, уникайте самолікування.';
-      } else {
-        level = 'high'; title = 'Висока ймовірність ниркової коліки';
-        text = 'Поєднання симптомів типове для ниркової коліки. Зверніться до уролога сьогодні. При нестерпному болю, високій температурі або блюванні — телефонуйте невідкладно.';
-      }
-      result.className = 'calc__result is-visible level-' + level;
-      result.innerHTML = '<h3>' + title + '</h3><p>' + text + '</p>' +
-        '<a href="#" class="btn btn--blue btn--plain" data-open-booking>Записатись на консультацію</a>';
-      result.querySelector('[data-open-booking]').addEventListener('click', function (e) {
+      var n = calc.querySelectorAll('input:checked').length;
+      var i = n <= 2 ? 0 : n <= 4 ? 1 : 2;
+      var r = results[i];
+      result.className = 'calc__result is-visible level-' + ['low', 'mid', 'high'][i];
+      result.innerHTML = '<h3>' + r.t + '</h3>' + r.x.map(function (p) { return '<p>' + p + '</p>'; }).join('') +
+        (r.a ? '<a href="#" class="btn btn--blue btn--plain" data-open-booking>' + r.a + '</a>' : '');
+      var cta = result.querySelector('[data-open-booking]');
+      if (cta) cta.addEventListener('click', function (e) {
         e.preventDefault();
+        track('renal_colic_high_risk_click', 'Lead');
         if (modal) { modal.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
       });
+      if (i === 2) track('renal_colic_high_risk', 'Lead');
       result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    calc.querySelectorAll('[data-track]').forEach(function (a) {
+      a.addEventListener('click', function () { track(a.getAttribute('data-track'), a.getAttribute('data-track-fb')); });
     });
   }
 })();
